@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/bryandd1/ICS46/HW9/src
 
-CXX_FLAGS = -DGTEST_HAS_PTHREAD=1 -std=c++20
+CXX_FLAGS = -fsanitize=address,undefined -DGTEST_HAS_PTHREAD=1 -std=c++20
 
