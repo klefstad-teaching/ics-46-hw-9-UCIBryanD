@@ -26,12 +26,12 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
                     new_ladder.push_back(*word_list_it);
                     if (*word_list_it == end_word)
                         return new_ladder;
-
+                    ladder_queue.push_back(new_ladder);
                 }
             }
         }
-
     }
+    return [];
 
 }
 
