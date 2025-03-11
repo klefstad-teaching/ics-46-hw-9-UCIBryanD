@@ -6,7 +6,22 @@ void error(string word1, string word2, string msg) {
 }
 
 bool edit_distance_within(const std::string& str1, const std::string& str2, int d);
-bool is_adjacent(const string& word1, const string& word2);
+
+bool is_adjacent(const string& word1, const string& word2) {
+    if (length(word1) != length(word2))
+        return false;
+
+    int word_length = length(word1);
+    for (int i = 0; i < word_length; ++i) {
+        string substr_word1 = word1;
+        string substr_word2 = word2;
+        substr_word1.erase(i, 1);
+        substr_word2.erase(i, 1);
+        if (substr_word1 == substr_word2)
+            return true;
+    }
+    return false;
+}
 
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list) {
     vector<vector<string>> ladder_queue;
@@ -19,7 +34,7 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
         ladder_queue.pop_front();
         string last_word = ladder.back();
         for (iterator word_list_it = word_list.begin(); word_list_it != word_list.end(); ++word_list_it) {
-            if (is_adjacent(last_word, *word_list_it)) {
+            if (is_adjacent(last_word, *word_list_it) || edit_distance_within(last_word, *word_list_it, 1)) {
                 if (!visited.find(*word_list_it)) {
                     visited.insert(*word_list_it);
                     vector<string> new_ladder = ladder;
