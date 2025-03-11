@@ -5,22 +5,25 @@ void error(string word1, string word2, string msg) {
     cout << msg << word1 << word2;
 }
 
-bool edit_distance_within(const std::string& str1, const std::string& str2, int d);
+bool edit_distance_within(const std::string& str1, const std::string& str2, int d) {
+    
+        return true;
+
+
+}
 
 bool is_adjacent(const string& word1, const string& word2) {
     if (length(word1) != length(word2))
         return false;
 
-    int word_length = length(word1);
-    for (int i = 0; i < word_length; ++i) {
-        string substr_word1 = word1;
-        string substr_word2 = word2;
-        substr_word1.erase(i, 1);
-        substr_word2.erase(i, 1);
-        if (substr_word1 == substr_word2)
-            return true;
+    int length = length(word1);
+    int difference = 0;
+    for (int i = 0; i < length; ++i) {
+        if (word1[i] != word2[i])
+            ++difference;
     }
-    return false;
+
+    return difference <= 1;
 }
 
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list) {
