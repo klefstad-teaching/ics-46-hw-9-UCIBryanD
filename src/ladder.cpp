@@ -32,11 +32,17 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
         }
     }
     return [];
-
 }
 
 
-void load_words(set<string> & word_list, const string& file_name);
+void load_words(set<string> & word_list, const string& file_name) {
+    fstream read_file;
+    read_file.open(file_name);
+    string word;
+    while (read_file >> word)
+        word_list.push_back(word);
+    read_file.close();
+}
 
 
 void print_word_ladder(const vector<string>& ladder);
