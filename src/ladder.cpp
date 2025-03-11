@@ -73,7 +73,7 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
             }
         }
     }
-    cout << "Failed: could not find the word";
+    //cout << "Failed: could not find the word";
     return {};
 }
 
