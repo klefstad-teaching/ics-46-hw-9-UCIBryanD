@@ -6,10 +6,26 @@ void error(string word1, string word2, string msg) {
 }
 
 bool edit_distance_within(const std::string& str1, const std::string& str2, int d) {
+    int str1_len = length(str1);
+    int str2_len = length(str2);
+
+    if (str1_len - str2_len > d || str2_len - str1_len > d)
+        return false;
     
-        return true;
+    int str1_index = 0;
+    int str2_index = 0;
+    int difference = 0;
 
-
+    for (; str1_index < str1_len && str2_index < str2_len; ++str1_index, ++str2_index) {
+        if (str1[str1_index] != str2[str2_index]) {
+            if (str1_index == str2_index)
+                str1_len > str2_index ? ++str1_index : ++str2_index;
+            else {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 bool is_adjacent(const string& word1, const string& word2) {
