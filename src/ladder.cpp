@@ -6,12 +6,17 @@ void error(string word1, string word2, string msg) {
 }
 
 bool edit_distance_within(const std::string& str1, const std::string& str2, int d) {
+    /*
+    int str1_len = str1.size();
+    int str2_len = str2.size();
+    */
+
     int str1_len = str1.size();
     int str2_len = str2.size();
 
-    return (str1_len - str2_len <= d && str2_len - str1_len <= d);
+    if (str1_len - str2_len > d || str2_len - str1_len > d)
+        return false;
     
-    /*
     int str1_index = 0;
     int str2_index = 0;
     int difference = 0;
@@ -19,38 +24,21 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
     for (; str1_index < str1_len && str2_index < str2_len; ++str1_index, ++str2_index) {
         //cout << "TESTING: " << str1[str1_index] << " " << str2[str2_index] << endl;
         if (str1[str1_index] != str2[str2_index]) {
-            if (str1_index == str2_index) {
-                (str1_len > str2_len) ? --str2_index : --str1_index;
-                ++difference;
-            }
-            else {
-                return false;
-            }
-        }
-    }
-    return difference <= d;
-    */
-}
-
-bool is_adjacent(const string& word1, const string& word2) {
-    if (!edit_distance_within(word1, word2, 1))
-        return false;
-    
-    int str1_len = word1.size();
-    int str2_len = word2.size();
-    int str1_index = 0;
-    int str2_index = 0;
-    int difference = 0;
-
-    for (; str1_index < str1_len && str2_index < str2_len; ++str1_index, ++str2_index) {
-        //cout << "TESTING: " << str1[str1_index] << " " << str2[str2_index] << endl;
-        if (word1[str1_index] != word2[str2_index]) {
             if (str1_len != str2_len)
                 (str1_len > str2_len) ? --str2_index : --str1_index;
             ++difference;
         }
     }
-    return difference <= 1;
+    return difference <= d;
+}
+
+bool is_adjacent(const string& word1, const string& word2) {
+    /*
+    if (!edit_distance_within(word1, word2, 1))
+        return false;
+    */
+    
+    return edit_distance_within(word1, word2, 1);
 
     /*
     int length = word1.size();
@@ -111,6 +99,7 @@ void load_words(set<string> & word_list, const string& file_name) {
 
 void print_word_ladder(const vector<string>& ladder) {
     if (!ladder.empty()) {
+        cout << "Word ladder found: ";
         for (auto word : ladder)
             cout << word << " ";
     }
