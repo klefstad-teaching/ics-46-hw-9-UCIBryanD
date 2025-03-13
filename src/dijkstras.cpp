@@ -1,34 +1,39 @@
 #include "dijkstras.h"
 
 vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& previous) {
-    queue<int> node_order{G.numVertices, -1}
-    priority_queue<int> pq;
+    int num_vertices = G.numVertices;
+    vector<int> distances{num_vertices, INF};
+    vector<bool> visited{num_vertices, false};
+    distances[source] = 0;
+    previous[source] = source;
+    
+    priority_queue<pair<int, int>> min_heap;
+    min_heap.push({source, 0});
 
-    node_order[source] = 0;
-    pq.push_back(source);
-
-    while (!pq.empty()) {
-        int current = pq.front();
-        pq.erase(pq.begin());
-        if (node_order[current] == -1 || current == source) {
-            for (auto edge : G[current]) {
-                int neighbor = edge.dst;
-                int weight = edge.weight;
-                if (G[neighbor] == -1)
-                    G[neighbor] = G[current] + weight;
-                else {
-                    if (G[current] + weight < G[neighbor])
-                        G[neighbor] = G[current] + weight;
-                }
+    while(!min_heap.empty()) {
+        int u = min_heap.top().first;
+        min_heap.pop();
+        if (visited[u])
+            continue;
+        visited[u] = true;
+        for (Edge edge : G[u]) {
+            int v = edge.dst;
+            int weight = edge.weight;
+            if (!visited[v] && distances[u] + weight < distances[v]) {
+                distances[v] = distances[u] + weight;
+                previous[v] = u;
+                min_heap.push({v, distances[v]});
             }
         }
     }
-
-    return node_order;
+    return distances;
 }
 
-vector<int> extract_shortest_path(const vector<int>& /*distances*/, const vector<int>& previous, int destination) {
-
+vector<int> extract_shortest_path(const vector<int>& distances, const vector<int>& previous, int destination) {
+    vector<int> path;
+    for (int root = 0; root < distances.size(); ++root) {
+        
+    }
 }
 void print_path(const vector<int>& v, int total) {
     for (auto vertex : v)
