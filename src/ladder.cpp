@@ -9,9 +9,9 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
     int str1_len = str1.size();
     int str2_len = str2.size();
 
-    if (str1_len - str2_len > d || str2_len - str1_len > d || (str1_len == str2_len && !is_adjacent(str1, str2)))
-        return false;
+    return (str1_len - str2_len <= d && str2_len - str1_len <= d);
     
+    /*
     int str1_index = 0;
     int str2_index = 0;
     int difference = 0;
@@ -29,12 +29,30 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
         }
     }
     return difference <= d;
+    */
 }
 
 bool is_adjacent(const string& word1, const string& word2) {
-    if (word1.size() != word2.size())
+    if (!edit_distance_within(word1, word2, 1))
         return false;
+    
+    int str1_len = word1.size();
+    int str2_len = word2.size();
+    int str1_index = 0;
+    int str2_index = 0;
+    int difference = 0;
 
+    for (; str1_index < str1_len && str2_index < str2_len; ++str1_index, ++str2_index) {
+        //cout << "TESTING: " << str1[str1_index] << " " << str2[str2_index] << endl;
+        if (word1[str1_index] != word2[str2_index]) {
+            if (str1_len != str2_len)
+                (str1_len > str2_len) ? --str2_index : --str1_index;
+            ++difference;
+        }
+    }
+    return difference <= 1;
+
+    /*
     int length = word1.size();
     int difference = 0;
     for (int i = 0; i < length; ++i) {
@@ -42,6 +60,7 @@ bool is_adjacent(const string& word1, const string& word2) {
             ++difference;
     }
     return difference <= 1;
+    */
 }
 
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list) {
@@ -56,7 +75,7 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
         string last_word = ladder.back();
         for (auto word_list_it = word_list.begin(); word_list_it != word_list.end(); ++word_list_it) {
             //cout << "THROUGH WORD LIST";
-            if (is_adjacent(last_word, *word_list_it) || edit_distance_within(last_word, *word_list_it, 1)) {
+            if (is_adjacent(last_word, *word_list_it)/*|| edit_distance_within(last_word, *word_list_it, 1)*/) {
                 if (!visited.contains(*word_list_it)) {
                     //cout << "NEW WORD TO LADDER";
                     visited.insert(*word_list_it);
