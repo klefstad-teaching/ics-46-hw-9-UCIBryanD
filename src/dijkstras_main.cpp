@@ -1,7 +1,7 @@
 #include "dijkstras.h"
 int main() {
     Graph G;
-    file_to_graph("src/largest.txt", G);
+    file_to_graph("src/large.txt", G);
     vector<int> previous;
     vector<int> shortest;
     previous.resize(G.numVertices, -1);
